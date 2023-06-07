@@ -1,9 +1,7 @@
-from PIL import Image
+from PIL import Image, ImageFilter
 import os
 
-
-
-def Menu():
+def Menu(): #Main Menu System
     print("[1] Image Edit \n[2] Credits \n[3] Exit")
     Ans = int(input('[Input]: '))
     if Ans == 1:
@@ -18,7 +16,7 @@ def Menu():
     else:
         Ans = input('Invaild Answer: ')
 
-def Credits():
+def Credits(): #Credits :)
     print('Program Made by Drew Armstrong')
     print('[1] Back')
     Ans = int(input('[Input]: '))
@@ -29,7 +27,9 @@ def Credits():
     else:
         Ans = int(input('Invaild Answer'))
 
-def Edit():
+
+
+def Edit(): #Edit Menu System
     print('[1] Size \n[2] Rotate \n[3] Convert File \n[4] Filter \n[5] Back')
     Ans = int(input('[input]: '))
     if Ans == 1:
@@ -50,7 +50,7 @@ def Edit():
     else:
         Ans = int(input('Invalid Answer: '))
 
-def Size():
+def Size(): #Change Image Size
     print('[Enter Width]: 1px Minimum')
     Width_Ans = int(input('[Input]: '))
     if Width_Ans < 1:
@@ -70,7 +70,7 @@ def Size():
             i.thumbnail(Size)
             i.save('Finished/{}_Resized{}'.format(fn))
 
-def Rotate():
+def Rotate(): #Rotates Image
     print('[Degrees]: 0 - 360')
     Degree = int(input('[Input]: '))
     if Degree > 360:
@@ -80,11 +80,9 @@ def Rotate():
     i = Image.open(image)
     fn, fext = os.path.splitext(image)
     i.rotate(Degree)
-    i.save('Finished/{}_Rotated{}'.format(fn))
-    
-    
+    i.save('Finished/{}_Rotated{}'.format(fn))  
 
-def Convert():
+def Convert(): # Converts Image to .png or .jpg
     print('[1] Convert to png \n[2] Convert to jpg \n[3] Back')
     Ans = int(input('[input]: '))
     
@@ -110,22 +108,43 @@ def Convert():
 
 
 
-def Filter():
-    print('[1] B/W \n[2] Contrast \n[3] Blur \n[4] Back ')
+def Filter(): #Filter Menu System
+    print('[1] Greyscale \n[2] Blur \n[3] Back ')
     Ans = int(input('[Input]: '))
     if Ans == 1:
         os.system('cls')
-        print()
+        Color()
     if Ans == 2:
         os.system('cls')
-        print()
+        Blur()
     if Ans == 3:
-        os.system('cls')
-        print()
-    if Ans == 4:
         os.system('cls')
         Edit()
 
-image = input('Enter Image to Edit')
-os.path('cls')
+
+
+def Color(): #Makes The Image Greyscale
+    i = Image.open(image)
+    fn, fext = os.path.splitext(image)
+    i.convert(mode='L')
+    i.save('Finished/{}_Greyscale{}'.format(fn))
+
+
+def Blur(): #Blurs Image
+    print('[Blur]: 0 - 100')
+    blur = int(input('[Input]: '))
+    if blur < 0:
+        blur = int(input('Cannot Go Under 0: '))
+
+    if blur > 100:
+        blur = int(input('Cannot Go Over 100: '))
+
+    i = Image.open(image)
+    fn, fext = os.path.splitext(image)
+    i.filter(ImageFilter.GaussianBlur(blur))
+    i.save('Finished/{}_Blurred{}'.format(fn))
+
+
+image = input('Enter Image to Edit: ')
+os.system('cls') #Clears Terminal Text (Used So Terminal isn't Cluttered and Also looks Higher Quality)
 Menu()
